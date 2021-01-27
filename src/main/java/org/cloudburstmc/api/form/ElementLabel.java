@@ -1,4 +1,14 @@
 package org.cloudburstmc.api.form;
 
-public interface ElementLabel extends Element {
+import javax.annotation.Nonnull;
+
+public final class ElementLabel extends Element {
+
+    public ElementLabel() {
+        super(ElementType.LABEL);
+    }
+
+    public ElementLabel(@Nonnull String elementText) {
+        super(ElementType.LABEL, elementText);
+    }
 }

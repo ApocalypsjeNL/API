@@ -1,25 +1,66 @@
 package org.cloudburstmc.api.form;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Preconditions;
+import org.cloudburstmc.api.form.util.ImageData;
+import org.cloudburstmc.api.form.util.ImageType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
-public interface ElementButton {
+public final class ElementButton {
+
+    @JsonProperty("text")
+    private String text;
+    @JsonProperty("image")
+    private ImageData imageData = new ImageData();
+
+    public ElementButton() {
+        this.text = "";
+    }
+
+    public ElementButton(@Nonnull String text) {
+        Preconditions.checkNotNull(text, "The provided button text can not be null");
+
+        this.text = text;
+    }
+
+    public ElementButton(@Nonnull String text, @Nullable ImageType imageType, @Nullable String imageData) {
+        Preconditions.checkNotNull(text, "The provided button text can not be null");
+
+        this.text = text;
+        this.imageData = new ImageData(imageType, imageData);
+    }
 
     @Nonnull
-    String getText();
+    public String getText() {
+        return text;
+    }
 
-    void setText(@Nonnull String text);
+    public void setText(@Nonnull String text) {
+        Preconditions.checkNotNull(text, "The provided button text can not be null");
+
+        this.text = text;
+    }
 
     @Nullable
-    ImageType getImageType();
+    public ImageData getImageData() {
+        return imageData;
+    }
 
-    void setImageType(@Nullable ImageType type);
+    public void setImageData(@Nullable ImageData imageData) {
+        this.imageData = imageData;
+    }
 
-    @Nullable
-    String getImageData();
+    @Nonnull
+    public ElementButton text(@Nonnull String text) {
+        setText(text);
+        return this;
+    }
 
-    void setImageData(@Nullable String data);
-
-    void onClick(@Nonnull Consumer<Void> callback);
+    @Nonnull
+    public ElementButton image(@Nullable ImageData imageData) {
+        setImageData(imageData);
+        return this;
+    }
 }
